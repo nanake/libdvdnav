@@ -94,15 +94,15 @@ typedef struct read_cache_s read_cache_t;
 #ifndef audio_status_t
 typedef struct {
 #ifdef WORDS_BIGENDIAN
-  unsigned int available     : 1;
-  unsigned int zero1         : 4;
-  unsigned int stream_number : 3;
+  unsigned char available     : 1;
+  unsigned char zero1         : 4;
+  unsigned char stream_number : 3;
   uint8_t zero2;
 #else
   uint8_t zero2;
-  unsigned int stream_number : 3;
-  unsigned int zero1         : 4;
-  unsigned int available     : 1;
+  unsigned char stream_number : 3;
+  unsigned char zero1         : 4;
+  unsigned char available     : 1;
 #endif
 } ATTRIBUTE_PACKED audio_status_t;
 #endif
@@ -110,25 +110,25 @@ typedef struct {
 #ifndef spu_status_t
 typedef struct {
 #ifdef WORDS_BIGENDIAN
-  unsigned int available               : 1;
-  unsigned int zero1                   : 2;
-  unsigned int stream_number_4_3       : 5;
-  unsigned int zero2                   : 3;
-  unsigned int stream_number_wide      : 5;
-  unsigned int zero3                   : 3;
-  unsigned int stream_number_letterbox : 5;
-  unsigned int zero4                   : 3;
-  unsigned int stream_number_pan_scan  : 5;
+  unsigned char available               : 1;
+  unsigned char zero1                   : 2;
+  unsigned char stream_number_4_3       : 5;
+  unsigned char zero2                   : 3;
+  unsigned char stream_number_wide      : 5;
+  unsigned char zero3                   : 3;
+  unsigned char stream_number_letterbox : 5;
+  unsigned char zero4                   : 3;
+  unsigned char stream_number_pan_scan  : 5;
 #else
-  unsigned int stream_number_pan_scan  : 5;
-  unsigned int zero4                   : 3;
-  unsigned int stream_number_letterbox : 5;
-  unsigned int zero3                   : 3;
-  unsigned int stream_number_wide      : 5;
-  unsigned int zero2                   : 3;
-  unsigned int stream_number_4_3       : 5;
-  unsigned int zero1                   : 2;
-  unsigned int available               : 1;
+  unsigned char stream_number_pan_scan  : 5;
+  unsigned char zero4                   : 3;
+  unsigned char stream_number_letterbox : 5;
+  unsigned char zero3                   : 3;
+  unsigned char stream_number_wide      : 5;
+  unsigned char zero2                   : 3;
+  unsigned char stream_number_4_3       : 5;
+  unsigned char zero1                   : 2;
+  unsigned char available               : 1;
 #endif
 } ATTRIBUTE_PACKED spu_status_t;
 #endif
