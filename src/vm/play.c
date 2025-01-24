@@ -203,7 +203,11 @@ link_t play_Cell(vm_t *vm) {
     Log3(vm, "(vm->state).cellN (%i) > pgc->nr_of_cells (%i)",
             (vm->state).cellN, (vm->state).pgc->nr_of_cells );
 #endif
-    assert((vm->state).cellN == (vm->state).pgc->nr_of_cells + 1);
+    if((vm->state).cellN > (vm->state).pgc->nr_of_cells + 1) {
+      /* bogus link, ignore it */
+      link_t link_values = { LinkNoLink, 0, 0, 0 };
+      return link_values;
+    }
     return play_PGC_post(vm);
   }
 
