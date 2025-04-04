@@ -224,7 +224,7 @@ struct dvdnav_s {
 /** HELPER FUNCTIONS **/
 
 /* converts a dvd_time_t to PTS ticks */
-int64_t dvdnav_convert_time(const dvd_time_t *time);
+DVDNAV_API int64_t dvdnav_convert_time(const dvd_time_t *time);
 
 /** USEFUL MACROS **/
 

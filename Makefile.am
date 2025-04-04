@@ -40,8 +40,7 @@ libdvdnav_la_SOURCES = \
 	src/vm/vmcmd.h
 
 libdvdnav_la_LDFLAGS = \
-	-version-info $(DVDNAV_LT_CURRENT):$(DVDNAV_LT_REVISION):$(DVDNAV_LT_AGE) \
-	-export-symbols-regex "^dvdnav"
+	-version-info $(DVDNAV_LT_CURRENT):$(DVDNAV_LT_REVISION):$(DVDNAV_LT_AGE)
 libdvdnav_la_LIBADD = $(THREAD_LIBS) $(DVDREAD_LIBS)
 
 pkgincludedir = $(includedir)/dvdnav

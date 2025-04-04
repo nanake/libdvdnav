@@ -108,6 +108,12 @@ dnl check for -Wall -Wextra support
 CC_CHECK_CFLAG_APPEND([-Wall -Wsign-compare -Wextra])
 
 dnl ---------------------------------------------
+dnl Check for symbol visibility flag
+dnl ---------------------------------------------
+CC_CHECK_CFLAGS_APPEND([-fvisibility=hidden])
+CPPFLAGS="${CPPFLAGS} -DDVDNAV_API_EXPORT"
+
+dnl ---------------------------------------------
 dnl Check for doxygen (dynamic documentation generator)
 dnl ---------------------------------------------
 AC_CHECK_PROG(DOXYGEN, doxygen, doxygen, no)
