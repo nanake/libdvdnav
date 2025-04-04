@@ -40,7 +40,7 @@ extern "C" {
 #  define DVDNAV_API
 #endif
 
-#include "version.h"
+#include <dvdnav/version.h>
 #include <dvdnav/dvd_types.h>
 #include <dvdread/dvd_reader.h>
 #include <dvdread/nav_types.h>
