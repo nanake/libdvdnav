@@ -5,6 +5,7 @@ libdvdnav (6.2.0)
  * add dvdnav_toggle_spu_stream API to enable/disable the current SPU stream
  * add dvdnav_get_disk_region_mask API to get the reported version from the disk
  * expose dvdnav_jump_to_sector_by_time to the API
+ * switch build system to Meson
  * fix crashes and avoid asserts
 
 libdvdnav (6.1.1)
