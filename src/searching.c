@@ -668,6 +668,10 @@ uint32_t dvdnav_describe_title_chapters(dvdnav_t *this, int32_t title, uint64_t 
   if(ptitle->vts_ttn == 0)
       goto fail;
   ptt = ifo->vts_ptt_srpt->title[ptitle->vts_ttn-1].ptt;
+  if (parts > ifo->vts_ptt_srpt->title[ptitle->vts_ttn-1].nr_of_ptts) {
+      printerr("Too many parts, using the ones available.");
+      parts = ifo->vts_ptt_srpt->title[ptitle->vts_ttn-1].nr_of_ptts;
+  }
 
   tmp = calloc(1, sizeof(uint64_t)*parts);
   if(!tmp)
