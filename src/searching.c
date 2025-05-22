@@ -667,6 +667,10 @@ uint32_t dvdnav_describe_title_chapters(dvdnav_t *this, int32_t title, uint64_t 
   parts = ptitle->nr_of_ptts;
   if(ptitle->vts_ttn == 0)
       goto fail;
+  if (ptitle->vts_ttn > ifo->vts_ptt_srpt->nr_of_srpts) {
+      printerr("Requested title not found.");
+      goto fail;
+  }
   ptt = ifo->vts_ptt_srpt->title[ptitle->vts_ttn-1].ptt;
   if (parts > ifo->vts_ptt_srpt->title[ptitle->vts_ttn-1].nr_of_ptts) {
       printerr("Too many parts, using the ones available.");
