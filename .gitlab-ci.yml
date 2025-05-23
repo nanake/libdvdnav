@@ -79,14 +79,14 @@ build-win64:
         expire_in: 1 week
 
 build-win32:
-    image: registry.videolan.org/vlc-debian-win32:20201106141924
+    image: registry.videolan.org/vlc-debian-llvm-msvcrt:20241118101328
     stage: build
     tags:
         - docker
         - amd64
     script:
-        - wget -nv https://artifacts.videolan.org/vlc/win32/vlc-contrib-i686-w64-mingw32-367001997fa588ab18e13c648501667906cc3fb7.tar.bz2
-        - tar xf vlc-contrib-i686-w64-mingw32-367001997fa588ab18e13c648501667906cc3fb7.tar.bz2
+        - wget -nv https://artifacts.videolan.org/vlc/win32-llvm/vlc-contrib-i686-w64-mingw32-639e528b4c58661401c6c88bc3774b39ab07592e.tar.bz2
+        - tar xf vlc-contrib-i686-w64-mingw32-639e528b4c58661401c6c88bc3774b39ab07592e.tar.bz2
         - cd i686-w64-mingw32
         - wget -nv -O ./change_prefix.sh 'https://git.videolan.org/?p=vlc.git;a=blob_plain;f=contrib/src/change_prefix.sh;hb=HEAD'
         - chmod +x ./change_prefix.sh
