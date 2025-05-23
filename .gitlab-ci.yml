@@ -25,7 +25,7 @@ build-macos-x86_64:
         - curl -sS -O https://artifacts.videolan.org/vlc/macos-x86_64/vlc-contrib-x86_64-apple-darwin19-b9001b49855ae2e96274777da57d8da8ad52face.tar.bz2
         - tar xf vlc-contrib-x86_64-apple-darwin19-b9001b49855ae2e96274777da57d8da8ad52face.tar.bz2
         - cd x86_64-apple-darwin19
-        - curl -sS -o ./change_prefix.sh 'https://git.videolan.org/?p=vlc.git;a=blob_plain;f=contrib/src/change_prefix.sh;hb=HEAD'
+        - curl -sS -o ./change_prefix.sh 'https://code.videolan.org/videolan/vlc/-/raw/master/contrib/src/change_prefix.sh?inline=false'
         - chmod +x ./change_prefix.sh
         - ./change_prefix.sh
         - curl -sS -o ./env.build.sh 'https://code.videolan.org/videolan/vlc/-/raw/master/extras/package/macosx/env.build.sh?inline=false'
@@ -60,7 +60,7 @@ build-win64:
         - wget -nv https://artifacts.videolan.org/vlc/win64/vlc-contrib-x86_64-w64-mingw32-639e528b4c58661401c6c88bc3774b39ab07592e.tar.bz2
         - tar xf vlc-contrib-x86_64-w64-mingw32-639e528b4c58661401c6c88bc3774b39ab07592e.tar.bz2
         - cd x86_64-w64-mingw32
-        - wget -nv -O ./change_prefix.sh 'https://git.videolan.org/?p=vlc.git;a=blob_plain;f=contrib/src/change_prefix.sh;hb=HEAD'
+        - wget -nv -O ./change_prefix.sh 'https://code.videolan.org/videolan/vlc/-/raw/master/contrib/src/change_prefix.sh?inline=false'
         - chmod +x ./change_prefix.sh
         - ./change_prefix.sh
         - cd ..
@@ -88,7 +88,7 @@ build-win32:
         - wget -nv https://artifacts.videolan.org/vlc/win32-llvm/vlc-contrib-i686-w64-mingw32-639e528b4c58661401c6c88bc3774b39ab07592e.tar.bz2
         - tar xf vlc-contrib-i686-w64-mingw32-639e528b4c58661401c6c88bc3774b39ab07592e.tar.bz2
         - cd i686-w64-mingw32
-        - wget -nv -O ./change_prefix.sh 'https://git.videolan.org/?p=vlc.git;a=blob_plain;f=contrib/src/change_prefix.sh;hb=HEAD'
+        - wget -nv -O ./change_prefix.sh 'https://code.videolan.org/videolan/vlc/-/raw/master/contrib/src/change_prefix.sh?inline=false'
         - chmod +x ./change_prefix.sh
         - ./change_prefix.sh
         - cd ..
