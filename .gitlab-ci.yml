@@ -5,136 +5,67 @@ variables:
     GIT_SUBMODULE_STRATEGY: normal
 
 build-debian:
-    image: registry.videolan.org/vlc-debian-unstable:20200529132440
+    image: registry.videolan.org/dav1d-debian-unstable:20250207200301
     stage: build
     tags:
         - docker
         - amd64
     script:
-        - autoreconf -fisv
-        - mkdir build
-        - cd build
-        - ../configure
-        - make -j $(getconf _NPROCESSORS_ONLN)
+        - git clone --branch master --depth 1 https://code.videolan.org/videolan/libdvdread.git subprojects/libdvdread
+        - meson setup build
+        - meson compile -C build
 
-build-macos-x86_64:
-    stage: build
-    tags:
-        - monterey
-    script:
-        - curl -sS -O https://artifacts.videolan.org/vlc/macos-x86_64/vlc-contrib-x86_64-apple-darwin19-b9001b49855ae2e96274777da57d8da8ad52face.tar.bz2
-        - tar xf vlc-contrib-x86_64-apple-darwin19-b9001b49855ae2e96274777da57d8da8ad52face.tar.bz2
-        - cd x86_64-apple-darwin19
-        - curl -sS -o ./change_prefix.sh 'https://code.videolan.org/videolan/vlc/-/raw/master/contrib/src/change_prefix.sh?inline=false'
-        - chmod +x ./change_prefix.sh
-        - ./change_prefix.sh
-        - curl -sS -o ./env.build.sh 'https://code.videolan.org/videolan/vlc/-/raw/master/extras/package/macosx/env.build.sh?inline=false'
-        - chmod +x ./env.build.sh
-        - source ./env.build.sh "contrib"
-        - export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:`pwd -P`/lib/pkgconfig/"
-        - export PATH="$PATH:`pwd -P`/bin/"
-        - cd ../
-        - autoreconf -fisv
-        - mkdir build
-        - cd build
-        - ../configure
-        - make -j $(getconf _NPROCESSORS_ONLN)
-        - make install DESTDIR=`pwd`/artifacts
-    variables:
-        VLC_PATH: /Users/videolanci/sandbox/bin
-        VLC_FORCE_KERNELVERSION: 19
-        HOST_ARCH: x86_64
-    artifacts:
-        name: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
-        paths:
-            - build/artifacts/
-        expire_in: 1 week
-
-build-macos-arm64:
-    stage: build
-    tags:
-        - macos-xcode15
-    script:
-        - curl -sS -O https://artifacts.videolan.org/vlc/macos-arm64/vlc-contrib-aarch64-apple-darwin19-b9001b49855ae2e96274777da57d8da8ad52face.tar.bz2
-        - tar xf vlc-contrib-aarch64-apple-darwin19-b9001b49855ae2e96274777da57d8da8ad52face.tar.bz2
-        - cd aarch64-apple-darwin19
-        - curl -sS -o ./change_prefix.sh 'https://code.videolan.org/videolan/vlc/-/raw/master/contrib/src/change_prefix.sh?inline=false'
-        - chmod +x ./change_prefix.sh
-        - ./change_prefix.sh
-        - curl -sS -o ./env.build.sh 'https://code.videolan.org/videolan/vlc/-/raw/master/extras/package/macosx/env.build.sh?inline=false'
-        - chmod +x ./env.build.sh
-        - source ./env.build.sh "contrib"
-        - export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:`pwd -P`/lib/pkgconfig/"
-        - export PATH="$PATH:`pwd -P`/bin/"
-        - cd ../
-        - autoreconf -fisv
-        - mkdir build
-        - cd build
-        - ../configure
-        - make -j $(getconf _NPROCESSORS_ONLN)
-        - make install DESTDIR=`pwd`/artifacts
-    variables:
-        VLC_PATH: /Users/videolanci/sandbox/bin
-        VLC_FORCE_KERNELVERSION: 19
-        HOST_ARCH: aarch64
-    artifacts:
-        name: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
-        paths:
-            - build/artifacts/
-        expire_in: 1 week
-
-build-win64:
-    image: registry.videolan.org/vlc-debian-win64-posix:20241118101328
+build-raspberry:
+    image: registry.videolan.org/vlc-ubuntu-raspberry:20240806085528
     stage: build
     tags:
         - docker
         - amd64
     script:
-        - wget -nv https://artifacts.videolan.org/vlc/win64/vlc-contrib-x86_64-w64-mingw32-639e528b4c58661401c6c88bc3774b39ab07592e.tar.bz2
-        - tar xf vlc-contrib-x86_64-w64-mingw32-639e528b4c58661401c6c88bc3774b39ab07592e.tar.bz2
-        - cd x86_64-w64-mingw32
-        - wget -nv -O ./change_prefix.sh 'https://code.videolan.org/videolan/vlc/-/raw/master/contrib/src/change_prefix.sh?inline=false'
-        - chmod +x ./change_prefix.sh
-        - ./change_prefix.sh
-        - cd ..
-        - export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:`realpath x86_64-w64-mingw32`/lib/pkgconfig/"
-        - export PATH="$PATH:`realpath x86_64-w64-mingw32`/bin/"
-        - autoreconf -fisv
-        - mkdir build
-        - cd build
-        - ../configure --host=x86_64-w64-mingw32
-        - make -j $(getconf _NPROCESSORS_ONLN)
-        - make install DESTDIR=`pwd`/artifacts
-    artifacts:
-        name: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
-        paths:
-            - build/artifacts/
-        expire_in: 1 week
+        - MESON_VERSION=1.8.4
+        - MESON_URL=https://github.com/mesonbuild/meson/releases/download/${MESON_VERSION}/meson-${MESON_VERSION}.tar.gz
+        - MESON_SHASUM512=3325c3968649847621e4d39309222741e5158b204ff6cc88410f364634c9978b5fb4c02c73968b3b7df46c89371a5b27aec9a997917dae757415bd77f5db39f2
+        - curl -LsO "${MESON_URL}" && echo $MESON_SHASUM512 meson-${MESON_VERSION}.tar.gz | sha512sum -c - && tar xvzf meson-${MESON_VERSION}.tar.gz
 
-build-win32:
-    image: registry.videolan.org/vlc-debian-llvm-msvcrt:20241118101328
+        - git clone --branch master --depth 1 https://code.videolan.org/videolan/libdvdread.git subprojects/libdvdread
+        - meson-${MESON_VERSION}/meson.py setup build --cross-file package/crossfiles/arm-linux-gnueabihf.meson
+        - meson-${MESON_VERSION}/meson.py compile -C build
+
+build-macos:
+    stage: build
+    tags:
+        - amd64
+        - macos
+    script:
+        - git clone --branch master --depth 1 https://code.videolan.org/videolan/libdvdread.git subprojects/libdvdread
+        - meson setup build
+        - meson compile -C build
+
+build-win:
+    image: registry.videolan.org/dav1d-debian-unstable:20250207200301
     stage: build
     tags:
         - docker
         - amd64
     script:
-        - wget -nv https://artifacts.videolan.org/vlc/win32-llvm/vlc-contrib-i686-w64-mingw32-639e528b4c58661401c6c88bc3774b39ab07592e.tar.bz2
-        - tar xf vlc-contrib-i686-w64-mingw32-639e528b4c58661401c6c88bc3774b39ab07592e.tar.bz2
-        - cd i686-w64-mingw32
-        - wget -nv -O ./change_prefix.sh 'https://code.videolan.org/videolan/vlc/-/raw/master/contrib/src/change_prefix.sh?inline=false'
-        - chmod +x ./change_prefix.sh
-        - ./change_prefix.sh
-        - cd ..
-        - export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:`realpath i686-w64-mingw32`/lib/pkgconfig/"
-        - export PATH="$PATH:`realpath i686-w64-mingw32`/bin/"
-        - autoreconf -fisv
-        - mkdir build
-        - cd build
-        - ../configure --host=i686-w64-mingw32
-        - make -j $(getconf _NPROCESSORS_ONLN)
-        - make install DESTDIR=`pwd`/artifacts
-    artifacts:
-        name: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
-        paths:
-            - build/artifacts/
-        expire_in: 1 week
+        - git clone --branch master --depth 1 https://code.videolan.org/videolan/libdvdread.git subprojects/libdvdread
+        - meson setup build --cross-file package/crossfiles/${CROSSFILE}.meson
+        - meson compile -C build
+    parallel:
+        matrix:
+            - CROSSFILE: [i686-w64-mingw32, x86_64-w64-mingw32]
+
+
+build-win-arm:
+    image: registry.videolan.org/vlc-debian-llvm-msvcrt:20250305204125
+    stage: build
+    tags:
+        - docker
+        - amd64
+    script:
+        - git clone --branch master --depth 1 https://code.videolan.org/videolan/libdvdread.git subprojects/libdvdread
+        - meson setup build --cross-file package/crossfiles/${CROSSFILE}.meson
+        - meson compile -C build
+    parallel:
+        matrix:
+            - CROSSFILE: [armv7-w64-mingw32, aarch64-w64-mingw32]
