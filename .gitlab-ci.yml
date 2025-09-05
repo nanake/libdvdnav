@@ -69,3 +69,17 @@ build-win-arm:
     parallel:
         matrix:
             - CROSSFILE: [armv7-w64-mingw32, aarch64-w64-mingw32]
+
+build-wasm:
+    image: registry.videolan.org/vlc-debian-wasm-emscripten:20250905104736
+    stage: build
+    tags:
+        - docker
+        - amd64
+    script:
+        - git clone --branch master --depth 1 https://code.videolan.org/videolan/libdvdread.git subprojects/libdvdread
+        - source $EMSCRIPTEN_SDK/emsdk_env.sh
+        - export EM_CACHE=`em-config CACHE`
+        - meson setup build --cross-file package/crossfiles/wasm-unknown-emscripten.meson
+        - meson compile -C build
+
