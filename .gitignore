@@ -18,6 +18,7 @@
 /depcomp
 /install-sh
 /libdvdnav*.tar.bz2
+/releases*
 /libtool
 /ltmain.sh
 /missing
